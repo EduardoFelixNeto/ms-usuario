@@ -1,4 +1,4 @@
-package br.com.ufpr.tads.dac.msusuarios.dto;
+package br.com.ufpr.tads.dac.msusuario.dto;
 
 public class UsuarioDTO {
     public Long id;

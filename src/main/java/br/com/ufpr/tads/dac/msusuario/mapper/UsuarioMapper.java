@@ -1,6 +1,8 @@
-package br.com.ufpr.tads.dac.msusuarios.mapper;
+package br.com.ufpr.tads.dac.msusuario.mapper;
 
-import br.com.ufpr.tads.dac.msusuarios.dto.UsuarioDTO;
+import br.com.ufpr.tads.dac.msusuario.dto.UsuarioDTO;
+import br.com.ufpr.tads.dac.msusuario.entity.Usuario;
+import org.springframework.stereotype.Component;
 
 @Component
 public class UsuarioMapper {

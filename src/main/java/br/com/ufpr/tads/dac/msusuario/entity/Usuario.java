@@ -1,5 +1,6 @@
-package br.com.ufpr.tads.dac.msusuarios.entity;
+package br.com.ufpr.tads.dac.msusuario.entity;
 
+import br.com.ufpr.tads.dac.msusuario.dto.TipoUsuario;
 import jakarta.persistence.*;
 
 @Entity
@@ -17,8 +18,6 @@ public class Usuario {
 
     @Column(unique = true)
     private String email;
-
-    private String senha;
 
     private String cep;
 
@@ -41,9 +40,6 @@ public class Usuario {
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
 
-    public String getSenha() { return senha; }
-    public void setSenha(String senha) { this.senha = senha; }
-
     public TipoUsuario getTipo() { return tipo; }
     public void setTipo(TipoUsuario tipo) { this.tipo = tipo; }
 
@@ -62,7 +58,6 @@ public class Usuario {
         public Builder nome(String nome) { u.setNome(nome); return this; }
         public Builder cpf(String cpf) { u.setCpf(cpf); return this; }
         public Builder email(String email) { u.setEmail(email); return this; }
-        public Builder senha(String senha) { u.setSenha(senha); return this; }
         public Builder tipo(TipoUsuario tipo) { u.setTipo(tipo); return this; }
         public Builder cep(String cep) { u.setCep(cep); return this; }
         public Builder endereco(String endereco) { u.setEndereco(endereco); return this; }

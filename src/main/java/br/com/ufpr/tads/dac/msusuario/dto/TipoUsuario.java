@@ -1,4 +1,4 @@
-package br.com.ufpr.tads.dac.msauth.entity;
+package br.com.ufpr.tads.dac.msusuario.dto;
 
 public enum TipoUsuario {
     PACIENTE,

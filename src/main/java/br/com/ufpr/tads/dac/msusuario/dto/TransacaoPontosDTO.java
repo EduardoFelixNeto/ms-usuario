@@ -1,2 +1,12 @@
-package br.com.ufpr.tads.dac.msusuario.dto;public class TransacaoPontosDTO {
+package br.com.ufpr.tads.dac.msusuario.dto;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
+public class TransacaoPontosDTO {
+    public LocalDateTime dataHora;
+    public String tipo;
+    public String descricao;
+    public int quantidadePontos;
+    public BigDecimal valorReais;
 }

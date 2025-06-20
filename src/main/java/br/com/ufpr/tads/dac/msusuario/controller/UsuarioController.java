@@ -1,4 +1,14 @@
-package br.com.ufpr.tads.dac.msusuarios.controller;
+package br.com.ufpr.tads.dac.msusuario.controller;
+
+import br.com.ufpr.tads.dac.msusuario.dto.CompraPontosDTO;
+import br.com.ufpr.tads.dac.msusuario.dto.SaldoDTO;
+import br.com.ufpr.tads.dac.msusuario.dto.TransacaoPontosDTO;
+import br.com.ufpr.tads.dac.msusuario.dto.UsuarioDTO;
+import br.com.ufpr.tads.dac.msusuario.service.UsuarioService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/usuarios")
