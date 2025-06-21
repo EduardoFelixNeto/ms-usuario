@@ -1,6 +1,8 @@
 package br.com.ufpr.tads.dac.msusuario.controller;
 
 import br.com.ufpr.tads.dac.msusuario.dto.*;
+import br.com.ufpr.tads.dac.msusuario.entity.Usuario;
+import br.com.ufpr.tads.dac.msusuario.repository.UsuarioRepository;
 import br.com.ufpr.tads.dac.msusuario.service.UsuarioService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,9 +16,11 @@ import java.util.List;
 public class UsuarioController {
 
     private final UsuarioService usuarioService;
+    private final UsuarioRepository usuarioRepository;
 
-    public UsuarioController(UsuarioService usuarioService) {
+    public UsuarioController(UsuarioService usuarioService, UsuarioRepository usuarioRepository) {
         this.usuarioService = usuarioService;
+        this.usuarioRepository = usuarioRepository;
     }
 
     @PostMapping
@@ -55,6 +59,12 @@ public class UsuarioController {
         String email = getEmailFromToken(); // usa o método acima
         PacienteDashboardDTO dashboard = usuarioService.montarDashboard(email);
         return ResponseEntity.ok(dashboard);
+    }
+
+    @GetMapping("/buscar-id")
+    public ResponseEntity<Long> buscarIdPorEmail(@RequestParam String email) {
+        Usuario usuario = usuarioRepository.findByEmail(email).orElseThrow();
+        return ResponseEntity.ok(usuario.getId());
     }
 
     public String getEmailFromToken() {

@@ -7,6 +7,8 @@ import br.com.ufpr.tads.dac.msusuario.repository.TransacaoPontosRepository;
 import br.com.ufpr.tads.dac.msusuario.repository.UsuarioRepository;
 import br.com.ufpr.tads.dac.msusuario.service.UsuarioService;
 import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -56,19 +58,24 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     public void comprarPontos(Long id, CompraPontosDTO dto) {
         Usuario usuario = usuarioRepository.findById(id).orElseThrow();
-        usuario.setPontos(usuario.getPontos() + dto.quantidadePontos);
+
+        int quantidade = dto.quantidadePontos;
+        BigDecimal valorCalculado = BigDecimal.valueOf(quantidade).multiply(BigDecimal.valueOf(5));
+
+        usuario.setPontos(usuario.getPontos() + quantidade);
 
         TransacaoPontos transacao = new TransacaoPontos();
         transacao.setUsuario(usuario);
         transacao.setTipo(TipoTransacao.ENTRADA);
-        transacao.setDescricao(dto.descricao);
-        transacao.setQuantidadePontos(dto.quantidadePontos);
-        transacao.setValorReais(dto.valorReais);
+        transacao.setDescricao("COMPRA DE PONTOS");
+        transacao.setQuantidadePontos(quantidade);
+        transacao.setValorReais(valorCalculado);
         transacao.setDataHora(LocalDateTime.now());
 
         usuarioRepository.save(usuario);
         transacaoRepository.save(transacao);
     }
+
 
     @Override
     public List<TransacaoPontosDTO> extrato(Long id) {

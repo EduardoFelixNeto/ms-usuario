@@ -20,7 +20,6 @@ public class SecurityConfig {
                 .cors(Customizer.withDefaults()) // Habilita CORS
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/actuator/health", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/usuarios").permitAll()
                         .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()));
