@@ -1,9 +1,6 @@
 package br.com.ufpr.tads.dac.msusuario.service;
 
-import br.com.ufpr.tads.dac.msusuario.dto.CompraPontosDTO;
-import br.com.ufpr.tads.dac.msusuario.dto.SaldoDTO;
-import br.com.ufpr.tads.dac.msusuario.dto.TransacaoPontosDTO;
-import br.com.ufpr.tads.dac.msusuario.dto.UsuarioDTO;
+import br.com.ufpr.tads.dac.msusuario.dto.*;
 
 import java.util.List;
 
@@ -14,5 +11,7 @@ public interface UsuarioService {
     void comprarPontos(Long id, CompraPontosDTO dto);
     List<TransacaoPontosDTO> extrato(Long id);
     SaldoDTO saldo(Long id);
+    PacienteDashboardDTO montarDashboard(String email);
+
 }
 

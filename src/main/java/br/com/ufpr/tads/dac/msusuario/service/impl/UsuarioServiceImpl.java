@@ -1,5 +1,6 @@
 package br.com.ufpr.tads.dac.msusuario.service.impl;
 
+import br.com.ufpr.tads.dac.msusuario.client.ConsultaClient;
 import br.com.ufpr.tads.dac.msusuario.dto.*;
 import br.com.ufpr.tads.dac.msusuario.entity.*;
 import br.com.ufpr.tads.dac.msusuario.repository.TransacaoPontosRepository;
@@ -15,10 +16,12 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
     private final TransacaoPontosRepository transacaoRepository;
+    private final ConsultaClient consultaClient;
 
-    public UsuarioServiceImpl(UsuarioRepository usuarioRepository, TransacaoPontosRepository transacaoRepository) {
+    public UsuarioServiceImpl(UsuarioRepository usuarioRepository, TransacaoPontosRepository transacaoRepository, ConsultaClient consultaClient) {
         this.usuarioRepository = usuarioRepository;
         this.transacaoRepository = transacaoRepository;
+        this.consultaClient = consultaClient;
     }
 
     @Override
@@ -101,4 +104,20 @@ public class UsuarioServiceImpl implements UsuarioService {
         dto.tipo = entity.getTipo().name();
         return dto;
     }
+
+    public PacienteDashboardDTO montarDashboard(String email) {
+        Usuario usuario = usuarioRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+
+        int saldo = usuario.getPontos();
+
+        List<AgendamentoDTO> agendamentos = consultaClient.listarAgendamentosPorPaciente(usuario.getId());
+
+        PacienteDashboardDTO dto = new PacienteDashboardDTO();
+        dto.setSaldoPontos(saldo);
+        dto.setAgendamentos(agendamentos);
+
+        return dto;
+    }
+
 }

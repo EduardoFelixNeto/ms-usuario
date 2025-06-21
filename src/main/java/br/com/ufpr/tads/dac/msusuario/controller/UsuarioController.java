@@ -1,11 +1,10 @@
 package br.com.ufpr.tads.dac.msusuario.controller;
 
-import br.com.ufpr.tads.dac.msusuario.dto.CompraPontosDTO;
-import br.com.ufpr.tads.dac.msusuario.dto.SaldoDTO;
-import br.com.ufpr.tads.dac.msusuario.dto.TransacaoPontosDTO;
-import br.com.ufpr.tads.dac.msusuario.dto.UsuarioDTO;
+import br.com.ufpr.tads.dac.msusuario.dto.*;
 import br.com.ufpr.tads.dac.msusuario.service.UsuarioService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -50,4 +49,20 @@ public class UsuarioController {
     public ResponseEntity<SaldoDTO> saldo(@PathVariable Long id) {
         return ResponseEntity.ok(usuarioService.saldo(id));
     }
+
+    @GetMapping("/dashboard")
+    public ResponseEntity<PacienteDashboardDTO> dashboard() {
+        String email = getEmailFromToken(); // usa o método acima
+        PacienteDashboardDTO dashboard = usuarioService.montarDashboard(email);
+        return ResponseEntity.ok(dashboard);
+    }
+
+    public String getEmailFromToken() {
+        var auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth.getPrincipal() instanceof Jwt jwt) {
+            return jwt.getSubject();
+        }
+        throw new RuntimeException("Token JWT inválido");
+    }
+
 }
