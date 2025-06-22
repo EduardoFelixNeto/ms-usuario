@@ -6,6 +6,7 @@ import br.com.ufpr.tads.dac.msusuario.entity.*;
 import br.com.ufpr.tads.dac.msusuario.repository.TransacaoPontosRepository;
 import br.com.ufpr.tads.dac.msusuario.repository.UsuarioRepository;
 import br.com.ufpr.tads.dac.msusuario.service.UsuarioService;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -126,5 +127,28 @@ public class UsuarioServiceImpl implements UsuarioService {
 
         return dto;
     }
+
+    @Override
+    @Transactional
+    public void debitarPontos(Long idUsuario, DebitoPontosDTO dto) {
+        Usuario usuario = usuarioRepository.findById(idUsuario)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+
+        if (usuario.getPontos() < dto.getQuantidade()) {
+            throw new RuntimeException("Saldo insuficiente para débito de pontos.");
+        }
+
+        usuario.setPontos(usuario.getPontos() - dto.getQuantidade());
+        usuarioRepository.save(usuario);
+
+        var transacao = new TransacaoPontos();
+        transacao.setUsuario(usuario);
+        transacao.setQuantidadePontos(dto.getQuantidade());
+        transacao.setDescricao(dto.getDescricao());
+        transacao.setTipo(TipoTransacao.SAIDA);
+        transacao.setDataHora(LocalDateTime.now());
+        transacaoRepository.save(transacao);
+    }
+
 
 }

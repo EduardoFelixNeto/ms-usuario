@@ -13,5 +13,6 @@ public interface UsuarioService {
     SaldoDTO saldo(Long id);
     PacienteDashboardDTO montarDashboard(String email);
 
+    void debitarPontos(Long id, DebitoPontosDTO dto);
 }
 

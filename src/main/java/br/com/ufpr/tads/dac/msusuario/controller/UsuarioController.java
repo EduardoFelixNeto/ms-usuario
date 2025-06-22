@@ -75,4 +75,11 @@ public class UsuarioController {
         throw new RuntimeException("Token JWT inválido");
     }
 
+    @PostMapping("/{id}/debitar-pontos")
+    public ResponseEntity<Void> debitarPontos(@PathVariable Long id, @RequestBody DebitoPontosDTO dto) {
+        usuarioService.debitarPontos(id, dto);
+        return ResponseEntity.ok().build();
+    }
+
+
 }
